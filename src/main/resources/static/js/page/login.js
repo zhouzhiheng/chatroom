@@ -24,14 +24,21 @@ window.onload=function(){
 					url: "/chatroom/login.json",
 					data: {
 						username: this.login.username,
-						password: hex_md5(this.login.password)
+						password: hex_md5(String(this.login.username) + String(this.login.password))
 					},
 					dataType: "json",
 					success: function (resp) {
-						console.log(resp);
+						if (resp.code === "200") {
+							setCookie("uid", resp.data.uid,24 * 60 * 60 * 1000);
+							window.location.href = "/room";
+						} else {
+							alert(resp.message);
+						}
 					}
 				})
-
+			},
+			userRegister:function () {
+				window.location.href = "/register";
 			}
 		}
 	});

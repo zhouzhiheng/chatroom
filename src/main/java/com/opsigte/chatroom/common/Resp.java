@@ -1,4 +1,4 @@
-package com.opsigte.chatroom.pojo;
+package com.opsigte.chatroom.common;
 
 import com.opsigte.chatroom.enums.ErrorCode;
 
@@ -68,6 +68,12 @@ public class Resp<T> implements Serializable {
     }
     public static <T> Resp fail(String code,T data){
         return new Resp<>(code, ErrorCode.SYSTEM_CODE.getMessage(), data);
+    }
+    public static <T> Resp fail(ErrorCode errorCode){
+        return new Resp<>(errorCode.getCode(), errorCode.getMessage(),null);
+    }
+    public static <T> Resp fail(ErrorCode errorCode,T result){
+        return new Resp<>(errorCode.getCode(), errorCode.getMessage(),result);
     }
     public static <T> Resp fail(String code ,String mesage,T data){
         return new Resp<>(code, mesage, data);

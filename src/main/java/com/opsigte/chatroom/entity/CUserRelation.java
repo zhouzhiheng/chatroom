@@ -1,8 +1,18 @@
 package com.opsigte.chatroom.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class CUserRelation {
+/**
+ * @Project: com.opsigte.chatroom.entity
+ * @Class: CUserRelation
+ * @Description: 用户关系实体
+ * @Author: opsigte
+ * @Date: 2019/1/2 10:06
+ * @version
+ */
+public class CUserRelation implements Serializable {
+    private static final long serialVersionUID = -1422481764369569547L;
     private String sourceUid;
 
     private String targetUid;
@@ -51,5 +61,16 @@ public class CUserRelation {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "CUserRelation{" +
+                "sourceUid='" + sourceUid + '\'' +
+                ", targetUid='" + targetUid + '\'' +
+                ", version=" + version +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

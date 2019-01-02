@@ -14,8 +14,30 @@ public enum ErrorCode {
      * 成功请求（没数据）
      */
     DATA_IS_NULL(204,"没有查询到数据"),
-
-
+    /**
+     * 账号不存在
+     */
+    ACCOUNT_NOT_EXIST(301, "账号不存在"),
+    /**
+     * 账号或密码不正确
+     */
+    ACCOUNT_PASSWORD_NOT_MATCH(302, "账号或密码不正确"),
+    /**
+     * 账号无效
+     */
+    ACCOUNT_NOT_VALID(303, "账号无效"),
+    /**
+     * 账号被冻结
+     */
+    ACCOUNT_LOCKED(304, "账号被冻结"),
+    /**
+     * 账号已经存在
+     */
+    ACCOUNT_ALREADY_EXIST(305, "账号已经存在"),
+    /**
+     * 参数传入错误
+     */
+    PARAM_ERROR(101, "参数传入错误"),
 
     ;
 

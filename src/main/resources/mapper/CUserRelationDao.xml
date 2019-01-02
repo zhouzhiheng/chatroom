@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opsigte.chatroom.dao.CUserRelationDao">
+  <resultMap id="BaseResultMap" type="com.opsigte.chatroom.entity.CUserRelation">
+    <result column="source_uid" jdbcType="CHAR" property="sourceUid" />
+    <result column="target_uid" jdbcType="CHAR" property="targetUid" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+
+    <insert id="insert" parameterType="com.opsigte.chatroom.entity.CUserRelation">
+    insert into c_user_relation (source_uid, target_uid, version,
+      create_time, update_time)
+    values (#{sourceUid,jdbcType=CHAR}, #{targetUid,jdbcType=CHAR}, #{version,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+
+    <select id="selectByUid" resultMap="BaseResultMap" parameterType="string">
+        SELECT target_uid FROM c_user_relation
+        WHERE source_uid = #{uid} or target_uid = #{uid}
+    </select>
+</mapper>

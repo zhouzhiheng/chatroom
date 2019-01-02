@@ -17,11 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BaseController {
 
 
-    @RequestMapping(value = {"", "hello"})
+    @RequestMapping(value = {"", "login"})
     public String hello(Model model){
-        model.addAttribute("say", "hello");
-        model.addAttribute("line", "this is hello page !!!!");
-        return "hello";
+        return "login";
     }
 
     @RequestMapping(value = "/{url}")

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opsigte.chatroom.dao.CUserDao">
+    <resultMap id="BaseResultMap" type="com.opsigte.chatroom.entity.CUser">
+        <result column="uid" jdbcType="CHAR" property="uid" />
+        <result column="nice_name" jdbcType="VARCHAR" property="niceName" />
+        <result column="head_url" jdbcType="VARCHAR" property="headUrl" />
+        <result column="status" jdbcType="BIT" property="status" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="is_member" jdbcType="BIT" property="isMember" />
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+
+  <insert id="addUser" parameterType="com.opsigte.chatroom.entity.CUser">
+      <selectKey resultType="java.lang.String" keyProperty="uid" order="BEFORE">
+          SELECT UUID()
+      </selectKey>
+    insert into c_user (uid, head_url, is_member,
+      last_login_time, nice_name, password,
+      status,version,create_time,update_time)
+    values (#{uid,jdbcType=VARCHAR}, #{headUrl,jdbcType=VARCHAR}, #{isMember,jdbcType=INTEGER},
+      #{lastLoginTime,jdbcType=TIMESTAMP}, #{niceName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{status,jdbcType=INTEGER},#{version,jdbcType=INTEGER},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+
+
+    <select id="selectBy" resultMap="BaseResultMap" parameterType="map">
+      SELECT uid,
+             nice_name,
+             head_url,
+             is_member,
+             last_login_time,
+             password,
+             status
+      FROM c_user
+      <where>
+        <if test="username != null and username != ''">
+            AND nice_name = #{username}
+        </if>
+        <if test="password != null and password != ''">
+            AND password = #{password}
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+      </where>
+    </select>
+    <select id="selectByPrimary" resultType="com.opsigte.chatroom.entity.CUser" parameterType="string">
+        SELECT uid,
+               nice_name,
+               head_url,
+               is_member,
+               last_login_time
+        FROM c_user
+        WHERE uid = #{uid}
+    </select>
+
+
+</mapper>

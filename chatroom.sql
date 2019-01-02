@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `c_user` (
   `status` tinyint(1) NOT NULL COMMENT '用户状态。1-正常；2-冻结',
   `password` varchar(100) NOT NULL COMMENT '用户密码',
   `is_member` tinyint(1) NOT NULL COMMENT '是否是会员。1-是；2-不是',
-  `last_login_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次登录时间',
+  `last_login_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次登录时间',
   `version` int(11) NOT NULL COMMENT '数据库版本',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间',
@@ -34,8 +34,13 @@ CREATE TABLE IF NOT EXISTS `c_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- 正在导出表  chatroom.c_user 的数据：~0 rows (大约)
-DELETE FROM `c_user`;
 /*!40000 ALTER TABLE `c_user` DISABLE KEYS */;
+INSERT INTO `c_user` (`uid`, `nice_name`, `head_url`, `status`, `password`, `is_member`, `last_login_time`, `version`, `create_time`, `update_time`) VALUES
+	('0496d837-0e7c-11e9-833e-309c233cd1e5', 'master', '', 1, '4a76607de2a034f29ccca035009587c8', 2, NULL, 1, '2019-01-02 10:49:03', '2019-01-02 10:49:03'),
+	('5b9e56a3-0e65-11e9-833e-309c233cd1e5', 'opsigtesdfsa', '', 1, '14718dd80731e3c79fbbf416d3100a2f', 2, NULL, 1, '2019-01-02 08:06:50', '2019-01-02 08:06:50'),
+	('5fb2f0e5-0e7d-11e9-833e-309c233cd1e5', 'test', '', 1, '6a42684f2be600e858f8ebb0a0111449', 2, NULL, 1, '2019-01-02 10:58:45', '2019-01-02 10:58:45'),
+	('7cf7ebe8-0e65-11e9-833e-309c233cd1e5', 'opsigtesdfsas', '', 1, 'b42647b89afaed97f8e5f370749ec898', 2, NULL, 1, '2019-01-02 08:07:46', '2019-01-02 08:07:46'),
+	('eec384a3-0e64-11e9-833e-309c233cd1e5', 'opsigte', '', 1, 'e581e3f0a36a84ade075774439291551', 2, NULL, 1, '2019-01-02 08:03:48', '2019-01-02 08:03:48');
 /*!40000 ALTER TABLE `c_user` ENABLE KEYS */;
 
 -- 导出  表 chatroom.c_user_relation 结构
@@ -49,7 +54,6 @@ CREATE TABLE IF NOT EXISTS `c_user_relation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户关系表';
 
 -- 正在导出表  chatroom.c_user_relation 的数据：~0 rows (大约)
-DELETE FROM `c_user_relation`;
 /*!40000 ALTER TABLE `c_user_relation` DISABLE KEYS */;
 /*!40000 ALTER TABLE `c_user_relation` ENABLE KEYS */;
 
