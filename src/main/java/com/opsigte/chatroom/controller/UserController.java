@@ -3,6 +3,7 @@ package com.opsigte.chatroom.controller;
 import com.opsigte.chatroom.common.Resp;
 import com.opsigte.chatroom.enums.ErrorCode;
 import com.opsigte.chatroom.exception.CUserException;
+import com.opsigte.chatroom.service.UserRelationService;
 import com.opsigte.chatroom.service.UserService;
 import com.opsigte.chatroom.vo.UserLoginVO;
 import org.slf4j.Logger;
@@ -32,6 +33,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRelationService userRelationService;
 
     /**
      * 用户登录
@@ -43,7 +46,7 @@ public class UserController {
      */
     @RequestMapping(value = "login.json")
     public Resp login(@RequestParam String username,@RequestParam String password){
-        log.info("login入参：username:{},password:{}",username,password);
+        log.info("用户登录-入参：username:{},password:{}",username,password);
 
         try {
             UserLoginVO login = userService.login(username, password);
@@ -68,7 +71,7 @@ public class UserController {
      */
     @RequestMapping(value = "register.json")
     public Resp addUser(@RequestParam String username,@RequestParam String password){
-        log.info("addUser入参：username:{},password:{}",username,password);
+        log.info("注册用户-入参：username:{},password:{}",username,password);
         try {
             return Resp.success(userService.addUser(username, password));
         } catch (CUserException ce) {
@@ -80,11 +83,24 @@ public class UserController {
 
 
 
-
-
+    /**
+     * 添加好友
+     *
+     * @Title addRelation
+     * @param sourceUid, targetUid
+     * @return com.opsigte.chatroom.common.Resp
+     * @throws
+     */
     @RequestMapping(value = "addRelation.json")
-    public Resp addRelation(@RequestParam String sourceUid,@RequestParam String targetUidA){
-        return null;
+    public Resp addRelation(@RequestParam String sourceUid,@RequestParam String targetUid){
+        log.info("添加好友-入参:sourceUid:{},targetUid:{}",sourceUid,targetUid);
+        try {
+            return Resp.success(userRelationService.addRelation(sourceUid, targetUid));
+        } catch (CUserException ce) {
+            return checkException(ce);
+        } catch (Exception e) {
+            return Resp.fail();
+        }
     }
 
 
@@ -104,6 +120,8 @@ public class UserController {
                 return Resp.fail(ErrorCode.PARAM_ERROR);
             case CUserException.ACCOUNT_ALREADY_EXIST:
                 return Resp.fail(ErrorCode.ACCOUNT_ALREADY_EXIST);
+            case CUserException.RALATION_NOT_MYSELFT:
+                return Resp.fail(ErrorCode.RALATION_NOT_MYSELFT);
             default:
                 return Resp.fail();
         }

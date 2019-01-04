@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `c_user` (
   PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
--- 正在导出表  chatroom.c_user 的数据：~0 rows (大约)
+-- 正在导出表  chatroom.c_user 的数据：~5 rows (大约)
 /*!40000 ALTER TABLE `c_user` DISABLE KEYS */;
 INSERT INTO `c_user` (`uid`, `nice_name`, `head_url`, `status`, `password`, `is_member`, `last_login_time`, `version`, `create_time`, `update_time`) VALUES
 	('0496d837-0e7c-11e9-833e-309c233cd1e5', 'master', '', 1, '4a76607de2a034f29ccca035009587c8', 2, NULL, 1, '2019-01-02 10:49:03', '2019-01-02 10:49:03'),
@@ -46,15 +46,19 @@ INSERT INTO `c_user` (`uid`, `nice_name`, `head_url`, `status`, `password`, `is_
 -- 导出  表 chatroom.c_user_relation 结构
 DROP TABLE IF EXISTS `c_user_relation`;
 CREATE TABLE IF NOT EXISTS `c_user_relation` (
+  `relation_id` char(36) NOT NULL COMMENT '主键id',
   `source_uid` char(36) NOT NULL COMMENT '源uid',
   `target_uid` char(36) NOT NULL COMMENT '好友uid',
   `version` int(11) NOT NULL COMMENT '数据库版本',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间'
+  `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间',
+  PRIMARY KEY (`relation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户关系表';
 
 -- 正在导出表  chatroom.c_user_relation 的数据：~0 rows (大约)
 /*!40000 ALTER TABLE `c_user_relation` DISABLE KEYS */;
+INSERT INTO `c_user_relation` (`relation_id`, `source_uid`, `target_uid`, `version`, `create_time`, `update_time`) VALUES
+	('510f6895-0ffd-11e9-833e-309c233cd1e5', 'eec384a3-0e64-11e9-833e-309c233cd1e5', '5fb2f0e5-0e7d-11e9-833e-309c233cd1e5', 1, '2019-01-04 08:47:04', '2019-01-04 08:47:04');
 /*!40000 ALTER TABLE `c_user_relation` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

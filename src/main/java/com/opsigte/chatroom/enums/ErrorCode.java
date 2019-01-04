@@ -35,6 +35,10 @@ public enum ErrorCode {
      */
     ACCOUNT_ALREADY_EXIST(305, "账号已经存在"),
     /**
+     * 不能添加自己为好友
+     */
+    RALATION_NOT_MYSELFT(305, "不能添加自己为好友"),
+    /**
      * 参数传入错误
      */
     PARAM_ERROR(101, "参数传入错误"),
