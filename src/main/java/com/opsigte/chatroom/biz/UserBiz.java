@@ -66,7 +66,7 @@ public class UserBiz {
     /**
      * 根据uid查询用户信息
      *
-     * @Title selectByUid
+     * @Title selectListByUid
      * @param uid
      * @return com.opsigte.chatroom.entity.CUser
      * @throws

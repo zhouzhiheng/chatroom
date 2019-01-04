@@ -33,7 +33,7 @@ public class UserRelationBiz {
     /**
      * 根据uid查询好友列表
      *
-     * @Title selectByUid
+     * @Title selectListByUid
      * @param uid
      * @return java.util.List<com.opsigte.chatroom.entity.CUserRelation>
      * @throws CUserException

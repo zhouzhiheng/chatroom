@@ -6,12 +6,15 @@ import com.opsigte.chatroom.entity.CUserRelation;
 import com.opsigte.chatroom.exception.CUserException;
 import com.opsigte.chatroom.service.UserRelationService;
 import com.opsigte.chatroom.service.UserService;
+import com.opsigte.chatroom.vo.UserRelationInfoVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,27 +40,65 @@ public class UserRelationServiceImpl implements UserRelationService {
     /**
      * 根据uid查询好友列表
      *
-     * @Title selectByUid
+     * @Title selectListByUid
      * @param uid
      * @return java.util.List<com.opsigte.chatroom.entity.CUserRelation>
      * @throws CUserException
      */
     @Override
-    public List<CUserRelation> selectByUid(String uid) throws CUserException {
+    public List<UserRelationInfoVO> selectListByUid(String uid) throws CUserException {
         if (StringUtils.isEmpty(uid)) {
             throw new CUserException(CUserException.INPUT_PARAM_IS_NULL, "参数错误");
         }
 
+        // 查询用户好友列表
+        List<CUserRelation> cUserRelations = null;
         try {
-            List<CUserRelation> cUserRelations = userRelationBiz.selectByUid(uid);
+            cUserRelations = userRelationBiz.selectByUid(uid);
             if (cUserRelations == null || cUserRelations.size() <= 0) {
-                log.info("用户{}没有好友", uid);
+                log.info(" {} 用户没有好友", uid);
                 throw new CUserException(CUserException.DATA_IS_NULL, "没有查询到好友列表");
             }
-            return cUserRelations;
         } catch (CUserException e) {
+            if (e.getCode() == CUserException.DATA_IS_NULL) {
+                throw new CUserException(CUserException.DATA_REQUEST_SUCCESS_BUT_IS_NULL,"数据请求成功，但是没有记录");
+            }
             throw new CUserException(CUserException.DB_SELECT_ERROR.getCode(), e.getMsg());
         }
+
+
+        List<UserRelationInfoVO> userVOList = new ArrayList<UserRelationInfoVO>();
+
+        // 循环查询用户好友信息
+        // TODO 待优化
+        for (CUserRelation cUserRelation : cUserRelations) {
+            UserRelationInfoVO relationUser = new UserRelationInfoVO();
+            String queryUid = "";
+            try {
+                // 判断，如果从好友列表中取出来的sourceUid不等于传进来的uid就根据sourceUid查；反之根据targetUid查
+                if (!cUserRelation.getSourceUid().equals(uid)) {
+                    queryUid = cUserRelation.getSourceUid();
+                } else {
+                    queryUid = cUserRelation.getTargetUid();
+                }
+
+
+                CUser cUser = userService.selectByPrimary(queryUid);
+                if (cUser == null) {
+                    throw new CUserException(CUserException.DATA_IS_NULL, "没有查到好友信息");
+                }
+                BeanUtils.copyProperties(cUser, relationUser);
+                relationUser.setRelationId(cUserRelation.getRelationId());
+                relationUser.setTargetUid(queryUid);
+                relationUser.setUid(uid);
+
+                userVOList.add(relationUser);
+            } catch (CUserException e) {
+                log.info("没有查询到好友信息，uid:{}", queryUid, e);
+            }
+        }
+
+        return userVOList;
     }
 
     /**

@@ -41,6 +41,7 @@ public class ChatRoomSocket {
         if (!"".equals(userId)) {
             webSocketSet.remove(userId);
             subOnlineCount();
+            System.out.println("当前在线人数：" + onlineCount);
         }
     }
 

@@ -3,6 +3,7 @@ package com.opsigte.chatroom.service;
 
 import com.opsigte.chatroom.entity.CUserRelation;
 import com.opsigte.chatroom.exception.CUserException;
+import com.opsigte.chatroom.vo.UserRelationInfoVO;
 
 import java.util.List;
 
@@ -20,12 +21,12 @@ public interface UserRelationService {
     /**
      * 根据uid查询好友列表
      *
-     * @Title selectByUid
+     * @Title selectListByUid
      * @param uid
      * @return java.util.List<com.opsigte.chatroom.entity.CUserRelation>
      * @throws CUserException
      */
-    List<CUserRelation> selectByUid(String uid) throws CUserException;
+    List<UserRelationInfoVO> selectListByUid(String uid) throws CUserException;
 
 
     /**

@@ -5,7 +5,7 @@ import com.opsigte.chatroom.enums.ErrorCode;
 import com.opsigte.chatroom.exception.CUserException;
 import com.opsigte.chatroom.service.UserRelationService;
 import com.opsigte.chatroom.service.UserService;
-import com.opsigte.chatroom.vo.UserLoginVO;
+import com.opsigte.chatroom.vo.UserRelationInfoVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +49,7 @@ public class UserController {
         log.info("用户登录-入参：username:{},password:{}",username,password);
 
         try {
-            UserLoginVO login = userService.login(username, password);
+            UserRelationInfoVO login = userService.login(username, password);
             return Resp.success(login);
         } catch (CUserException ue) {
             return checkException(ue);
@@ -104,6 +104,48 @@ public class UserController {
     }
 
 
+    /**
+     * 查询用户
+     *
+     * @Title queryUserBy
+     * @param username
+     * @return com.opsigte.chatroom.common.Resp
+     * @throws
+     */
+    @RequestMapping(value = "queryUserBy.json")
+    public Resp queryUserBy(String username){
+        log.info("查询用户-入参:username:{}", username);
+        try {
+            return Resp.success(userService.selectBy(username, null, 1));
+        } catch (CUserException ce) {
+            return checkException(ce);
+        } catch (Exception e) {
+            return Resp.fail();
+        }
+    }
+
+
+    /**
+     * 根据uid查询好友列表
+     *
+     * @Title queryRelationList
+     * @param uid
+     * @return com.opsigte.chatroom.common.Resp
+     * @throws
+     */
+    @RequestMapping(value = "queryRelationList.json")
+    public Resp queryRelationList(@RequestParam String uid) {
+        log.info("查询好友列表-入参:uid:{}", uid);
+
+        try {
+            return Resp.success(userRelationService.selectListByUid(uid));
+        } catch (CUserException ce) {
+            return checkException(ce);
+        } catch (Exception e) {
+            return Resp.fail();
+        }
+    }
+
 
     private Resp checkException(CUserException ce){
         int code = ce.getCode();
@@ -122,6 +164,8 @@ public class UserController {
                 return Resp.fail(ErrorCode.ACCOUNT_ALREADY_EXIST);
             case CUserException.RALATION_NOT_MYSELFT:
                 return Resp.fail(ErrorCode.RALATION_NOT_MYSELFT);
+            case CUserException.DATA_REQUEST_SUCCESS_BUT_IS_NULL:
+                return Resp.fail(ErrorCode.DATA_IS_NULL);
             default:
                 return Resp.fail();
         }

@@ -3,7 +3,7 @@ package com.opsigte.chatroom.service;
 import com.opsigte.chatroom.entity.CUser;
 import com.opsigte.chatroom.exception.BizException;
 import com.opsigte.chatroom.exception.CUserException;
-import com.opsigte.chatroom.vo.UserLoginVO;
+import com.opsigte.chatroom.vo.UserRelationInfoVO;
 
 import java.util.List;
 
@@ -21,11 +21,11 @@ public interface UserService {
      * 用户登录
      *
      * @param username, password
-     * @return com.opsigte.chatroom.vo.UserLoginVO
+     * @return com.opsigte.chatroom.vo.UserRelationInfoVO
      * @throws BizException
      * @Title userLogin
      */
-    UserLoginVO login(String username, String password) throws CUserException;
+    UserRelationInfoVO login(String username, String password) throws CUserException;
 
     /**
      * 注册用户

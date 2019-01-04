@@ -1,12 +1,11 @@
 package com.opsigte.chatroom.service.impl;
 
 import com.opsigte.chatroom.biz.UserBiz;
-import com.opsigte.chatroom.biz.UserRelationBiz;
 import com.opsigte.chatroom.entity.CUser;
 import com.opsigte.chatroom.exception.BizException;
 import com.opsigte.chatroom.exception.CUserException;
 import com.opsigte.chatroom.service.UserService;
-import com.opsigte.chatroom.vo.UserLoginVO;
+import com.opsigte.chatroom.vo.UserRelationInfoVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,18 +35,18 @@ public class UserServiceImpl implements UserService {
      * 用户登录
      *
      * @param username, password
-     * @return com.opsigte.chatroom.vo.UserLoginVO
+     * @return com.opsigte.chatroom.vo.UserRelationInfoVO
      * @throws BizException
      * @Title userLogin
      */
     @Override
-    public UserLoginVO login(String username, String password) throws CUserException {
+    public UserRelationInfoVO login(String username, String password) throws CUserException {
 
         if (StringUtils.isEmpty(username.trim()) || StringUtils.isEmpty(password)) {
             throw new CUserException(CUserException.INPUT_PARAM_IS_NULL, "参数错误");
         }
 
-        UserLoginVO userLoginVO = new UserLoginVO();
+        UserRelationInfoVO userLoginVO = new UserRelationInfoVO();
 
         // 查询用户信息
         List<CUser> cUsers = null;
@@ -84,37 +82,6 @@ public class UserServiceImpl implements UserService {
         // 赋值
         BeanUtils.copyProperties(cUsers.get(0), userLoginVO);
 
-
-        // 查询好友列表
-       /* List<String> list = null;
-        try {
-            list = userRelationBiz.selectByUid(uid);
-        } catch (CUserException e) {
-            log.info("查询好友列表失败");
-        }
-
-
-        List<UserLoginVO> userVOList = new ArrayList<UserLoginVO>();
-
-        // 循环查询用户好友信息
-        // TODO 待优化
-        if (list != null && list.size() > 0) {
-            for (int i = 0; i < list.size(); i++) {
-                UserLoginVO relationUser = new UserLoginVO();
-                try {
-                    CUser cUser = userBiz.selectByPrimary(list.get(i).toString());
-                    if (cUser == null) {
-                        throw new CUserException(CUserException.DATA_IS_NULL, "没有查到好友信息");
-                    }
-                    BeanUtils.copyProperties(cUser, relationUser);
-                    userVOList.add(relationUser);
-                } catch (CUserException e) {
-                    log.info("没有查询到好友信息，uid:{}", list.get(i).toString(), e);
-                }
-            }
-        } else {
-            log.info("未查询到好友列表,uid:{}",uid);
-        }*/
 
         log.info("用户登录成功,{}", userLoginVO);
         return userLoginVO;

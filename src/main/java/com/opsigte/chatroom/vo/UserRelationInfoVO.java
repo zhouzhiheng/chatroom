@@ -2,17 +2,16 @@ package com.opsigte.chatroom.vo;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @Project: com.opsigte.chatroom.vo
- * @Class: UserLoginVO
- * @Description: 用户登录后返回的对象
+ * @Class: UserRelationInfoVO
+ * @Description: 用户好友列表信息
  * @Author: opsigte
  * @Date: 2019/1/2 10:46
  * @version
  */
-public class UserLoginVO implements Serializable {
+public class UserRelationInfoVO implements Serializable {
     private static final long serialVersionUID = 4900716718759325378L;
 
     private String uid;
@@ -25,6 +24,26 @@ public class UserLoginVO implements Serializable {
     private Date lastLoginTime;
 
     private String niceName;
+
+    private String relationId;
+
+    private String targetUid;
+
+    public String getRelationId() {
+        return relationId;
+    }
+
+    public void setRelationId(String relationId) {
+        this.relationId = relationId;
+    }
+
+    public String getTargetUid() {
+        return targetUid;
+    }
+
+    public void setTargetUid(String targetUid) {
+        this.targetUid = targetUid;
+    }
 
     public String getUid() {
         return uid;
@@ -68,12 +87,14 @@ public class UserLoginVO implements Serializable {
 
     @Override
     public String toString() {
-        return "UserLoginVO{" +
+        return "UserRelationInfoVO{" +
                 "uid='" + uid + '\'' +
                 ", headUrl='" + headUrl + '\'' +
                 ", isMember=" + isMember +
                 ", lastLoginTime=" + lastLoginTime +
                 ", niceName='" + niceName + '\'' +
+                ", relationId='" + relationId + '\'' +
+                ", targetUid='" + targetUid + '\'' +
                 '}';
     }
 }

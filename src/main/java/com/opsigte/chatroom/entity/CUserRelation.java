@@ -13,8 +13,6 @@ import java.util.Date;
  */
 public class CUserRelation implements Serializable {
     private static final long serialVersionUID = -1422481764369569547L;
-    private String id;
-
     private String relationId;
     private String sourceUid;
 
@@ -35,13 +33,6 @@ public class CUserRelation implements Serializable {
         this.targetUid = targetUid;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getRelationId() {
         return relationId;
