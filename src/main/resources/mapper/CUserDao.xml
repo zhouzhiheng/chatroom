@@ -21,7 +21,7 @@
     insert into c_user (uid, head_url, is_member,
       last_login_time, nice_name, password,
       status,version,create_time,update_time)
-    values (#{uid,jdbcType=VARCHAR}, #{headUrl,jdbcType=VARCHAR}, #{isMember,jdbcType=INTEGER},
+    values (#{uid,jdbcType=CHAR}, #{headUrl,jdbcType=VARCHAR}, #{isMember,jdbcType=INTEGER},
       #{lastLoginTime,jdbcType=TIMESTAMP}, #{niceName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       #{status,jdbcType=INTEGER},#{version,jdbcType=INTEGER},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP})
   </insert>
@@ -34,7 +34,9 @@
              is_member,
              last_login_time,
              password,
-             status
+             status,
+             create_time,
+             update_time
       FROM c_user
       <where>
         <if test="username != null and username != ''">
@@ -48,12 +50,16 @@
         </if>
       </where>
     </select>
-    <select id="selectByPrimary" resultType="com.opsigte.chatroom.entity.CUser" parameterType="string">
+    <select id="selectByPrimary" resultMap="BaseResultMap" parameterType="string">
         SELECT uid,
                nice_name,
                head_url,
                is_member,
-               last_login_time
+               last_login_time,
+               password,
+               status,
+               create_time,
+               update_time
         FROM c_user
         WHERE uid = #{uid}
     </select>

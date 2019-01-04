@@ -1,13 +1,16 @@
 package com.opsigte.chatroom.biz;
 
 import com.opsigte.chatroom.dao.CUserRelationDao;
+import com.opsigte.chatroom.entity.CUserRelation;
 import com.opsigte.chatroom.exception.BizException;
 import com.opsigte.chatroom.exception.CUserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,7 +29,16 @@ public class UserRelationBiz {
     @Autowired
     private CUserRelationDao cUserRelationDao;
 
-    public List<String> selectByUid(String uid) throws CUserException{
+
+    /**
+     * 根据uid查询好友列表
+     *
+     * @Title selectByUid
+     * @param uid
+     * @return java.util.List<com.opsigte.chatroom.entity.CUserRelation>
+     * @throws CUserException
+     */
+    public List<CUserRelation> selectByUid(String uid) throws CUserException{
         try {
             log.info("查询好友列表参数,uid:{}", uid);
             return cUserRelationDao.selectByUid(uid);
@@ -36,4 +48,29 @@ public class UserRelationBiz {
         }
     }
 
+
+    /**
+     * 添加好友
+     *
+     * @Title addRelation
+     * @param sourceUid, targetUid
+     * @return java.lang.String
+     * @throws CUserException
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public String addRelation(String sourceUid, String targetUid) throws CUserException{
+        CUserRelation cUserRelation = new CUserRelation(sourceUid,targetUid);
+        cUserRelation.setVersion(1);
+        cUserRelation.setCreateTime(new Date());
+        cUserRelation.setUpdateTime(new Date());
+
+        log.info("添加好友信息:{}", cUserRelation);
+        try {
+            cUserRelationDao.addRelation(cUserRelation);
+            return cUserRelation.getRelationId();
+        } catch (Exception e) {
+            log.error("添加好友数据库失败,sourceUid:{},targetUid:{}",sourceUid,targetUid,e);
+            throw new CUserException(CUserException.DB_INSERT_RESULT_0.getCode(), "添加好友数据库异常");
+        }
+    }
 }

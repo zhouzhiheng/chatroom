@@ -33,9 +33,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserBiz userBiz;
 
-    @Autowired
-    private UserRelationBiz userRelationBiz;
-
     /**
      * 用户登录
      *
@@ -156,10 +153,67 @@ public class UserServiceImpl implements UserService {
 
         // 注册
         try {
-            return userBiz.addUser(username, password);
+            String uid = userBiz.addUser(username, password);
+            if (uid == null) {
+                throw new CUserException(CUserException.DB_INSERT_RESULT_0.getCode(),"用户注册失败，没有拿到uid");
+            }
+            log.info("用户注册成功，uid:{}", uid);
+            return uid;
         } catch (CUserException e) {
+            log.error("用户注册失败",e);
             throw new CUserException(CUserException.DB_INSERT_RESULT_0.getCode(), e.getMessage());
         }
     }
+
+
+    /**
+     * 根据条件查询用户
+     *
+     * @Title selectBy
+     * @param username, password, status
+     * @return java.util.List<com.opsigte.chatroom.entity.CUser>
+     * @throws CUserException
+     */
+    @Override
+    public List<CUser> selectBy(String username, String password, Integer status) throws CUserException {
+        try {
+            List<CUser> cUsers = userBiz.selectBy(username, password, status);
+            if (cUsers == null || cUsers.size() <= 0) {
+                log.info("没有查询到用户");
+                throw new CUserException(CUserException.DATA_IS_NULL, "没有根据条件查到用户");
+            }
+            return cUsers;
+        } catch (CUserException e) {
+            throw new CUserException(CUserException.DB_SELECT_ERROR.getCode(), e.getMsg());
+        }
+    }
+
+
+    /**
+     * 根据主键id查询用户
+     *
+     * @Title selectByPrimary
+     * @param uid
+     * @return com.opsigte.chatroom.entity.CUser
+     * @throws CUserException
+     */
+    @Override
+    public CUser selectByPrimary(String uid) throws CUserException {
+        if (StringUtils.isEmpty(uid)) {
+            throw new CUserException(CUserException.INPUT_PARAM_IS_NULL, "参数错误");
+        }
+
+        try {
+            CUser cUser = userBiz.selectByPrimary(uid);
+            if (cUser == null) {
+                log.info("没有uid为:{}的用户",uid);
+                throw new CUserException(CUserException.DATA_IS_NULL, "没有uid查到用户");
+            }
+            return cUser;
+        } catch (CUserException e) {
+            throw new CUserException(CUserException.DB_SELECT_ERROR.getCode(), e.getMsg());
+        }
+    }
+
 
 }

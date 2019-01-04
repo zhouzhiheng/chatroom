@@ -18,6 +18,7 @@ public class CUserException extends BizException {
     public static final int ACCOUNT_LOCKED = 10032005;
     public static final int ACCOUNT_NOT_EXIST = 10032006;
     public static final int ACCOUNT_ALREADY_EXIST = 10032007;
+    public static final int RALATION_NOT_MYSELFT = 10032008;
 
     public CUserException() {
     }

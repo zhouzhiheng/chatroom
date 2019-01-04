@@ -57,6 +57,15 @@ public class UserController {
     }
 
 
+
+    /**
+     * 注册用户
+     *
+     * @Title addUser
+     * @param username, password
+     * @return com.opsigte.chatroom.common.Resp
+     * @throws
+     */
     @RequestMapping(value = "register.json")
     public Resp addUser(@RequestParam String username,@RequestParam String password){
         log.info("addUser入参：username:{},password:{}",username,password);
@@ -68,6 +77,16 @@ public class UserController {
             return Resp.fail();
         }
     }
+
+
+
+
+
+    @RequestMapping(value = "addRelation.json")
+    public Resp addRelation(@RequestParam String sourceUid,@RequestParam String targetUidA){
+        return null;
+    }
+
 
 
     private Resp checkException(CUserException ce){

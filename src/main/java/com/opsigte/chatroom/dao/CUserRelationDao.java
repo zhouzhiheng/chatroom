@@ -18,20 +18,20 @@ public interface CUserRelationDao {
      *
      * @Title insert
      * @param cUserRelation
-     * @return int
+     * @return String
      * @throws Exception
      */
-    int insert(CUserRelation cUserRelation) throws Exception;
+    void addRelation(CUserRelation cUserRelation) throws Exception;
 
     /**
-     * 根据源uid查询好友uid
+     * 根据uid查询好友列表
      *
      * @Title selectByUid
      * @param uid
-     * @return java.util.List<java.lang.String>
+     * @return java.util.List<com.opsigte.chatroom.entity.CUserRelation>
      * @throws Exception
      */
-    List<String> selectByUid(String uid) throws Exception;
+    List<CUserRelation> selectByUid(String uid) throws Exception;
 
 
 

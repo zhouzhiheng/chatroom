@@ -89,7 +89,7 @@ public class UserBiz {
      * @return java.lang.String
      * @throws CUserException
      */
-    @Transactional()
+    @Transactional(rollbackFor = Exception.class)
     public String addUser(String username, String password) throws CUserException{
         CUser cUser = new CUser();
         cUser.setNiceName(username.trim());
@@ -102,16 +102,13 @@ public class UserBiz {
         cUser.setCreateTime(new Date());
         cUser.setUpdateTime(new Date());
 
+        log.info("注册用户信息:{}",cUser);
         try {
             cUserDao.addUser(cUser);
-            String uid = cUser.getUid();
-            if (uid == null) {
-                throw new CUserException(CUserException.DB_INSERT_RESULT_0.getCode(), "插入用户数据失败");
-            }
-            return uid;
+            return cUser.getUid();
         } catch (Exception e) {
             log.error("添加用户数据库异常",e);
-            throw new CUserException(CUserException.DB_INSERT_RESULT_0.getCode(), e.getMessage());
+            throw new CUserException(CUserException.DB_INSERT_RESULT_0.getCode(), "添加用户数据库异常");
         }
     }
 }

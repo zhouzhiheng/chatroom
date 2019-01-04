@@ -13,6 +13,9 @@ import java.util.Date;
  */
 public class CUserRelation implements Serializable {
     private static final long serialVersionUID = -1422481764369569547L;
+    private String id;
+
+    private String relationId;
     private String sourceUid;
 
     private String targetUid;
@@ -22,6 +25,31 @@ public class CUserRelation implements Serializable {
     private Date createTime;
 
     private Date updateTime;
+
+
+    public CUserRelation() {
+    }
+
+    public CUserRelation(String sourceUid, String targetUid) {
+        this.sourceUid = sourceUid;
+        this.targetUid = targetUid;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getRelationId() {
+        return relationId;
+    }
+
+    public void setRelationId(String relationId) {
+        this.relationId = relationId;
+    }
 
     public String getSourceUid() {
         return sourceUid;
@@ -66,7 +94,8 @@ public class CUserRelation implements Serializable {
     @Override
     public String toString() {
         return "CUserRelation{" +
-                "sourceUid='" + sourceUid + '\'' +
+                "relationId='" + relationId + '\'' +
+                ", sourceUid='" + sourceUid + '\'' +
                 ", targetUid='" + targetUid + '\'' +
                 ", version=" + version +
                 ", createTime=" + createTime +
