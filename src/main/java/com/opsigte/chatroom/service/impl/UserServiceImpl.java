@@ -40,13 +40,13 @@ public class UserServiceImpl implements UserService {
      * @Title userLogin
      */
     @Override
-    public UserRelationInfoVO login(String username, String password) throws CUserException {
+    public CUser login(String username, String password) throws CUserException {
 
         if (StringUtils.isEmpty(username.trim()) || StringUtils.isEmpty(password)) {
             throw new CUserException(CUserException.INPUT_PARAM_IS_NULL, "参数错误");
         }
 
-        UserRelationInfoVO userLoginVO = new UserRelationInfoVO();
+        CUser result = new CUser();
 
         // 查询用户信息
         List<CUser> cUsers = null;
@@ -80,11 +80,11 @@ public class UserServiceImpl implements UserService {
 
         String uid = cUsers.get(0).getUid();
         // 赋值
-        BeanUtils.copyProperties(cUsers.get(0), userLoginVO);
+        BeanUtils.copyProperties(cUsers.get(0), result);
 
 
-        log.info("用户登录成功,{}", userLoginVO);
-        return userLoginVO;
+        log.info("用户登录成功,{}", result);
+        return result;
     }
 
 

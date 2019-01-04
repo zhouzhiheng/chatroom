@@ -21,11 +21,11 @@ public interface UserService {
      * 用户登录
      *
      * @param username, password
-     * @return com.opsigte.chatroom.vo.UserRelationInfoVO
+     * @return com.opsigte.chatroom.entity.CUser
      * @throws BizException
      * @Title userLogin
      */
-    UserRelationInfoVO login(String username, String password) throws CUserException;
+    CUser login(String username, String password) throws CUserException;
 
     /**
      * 注册用户

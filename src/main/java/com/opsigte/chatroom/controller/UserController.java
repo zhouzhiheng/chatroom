@@ -1,6 +1,8 @@
 package com.opsigte.chatroom.controller;
 
+import com.opsigte.chatroom.annotation.Authentication;
 import com.opsigte.chatroom.common.Resp;
+import com.opsigte.chatroom.entity.CUser;
 import com.opsigte.chatroom.enums.ErrorCode;
 import com.opsigte.chatroom.exception.CUserException;
 import com.opsigte.chatroom.service.UserRelationService;
@@ -13,6 +15,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -45,12 +49,15 @@ public class UserController {
      * @throws
      */
     @RequestMapping(value = "login.json")
-    public Resp login(@RequestParam String username,@RequestParam String password){
+    public Resp login(HttpServletRequest request, @RequestParam String username, @RequestParam String password){
         log.info("用户登录-入参：username:{},password:{}",username,password);
 
         try {
-            UserRelationInfoVO login = userService.login(username, password);
-            return Resp.success(login);
+            CUser user = userService.login(username, password);
+            if (user != null) {
+                request.getSession().setAttribute("loginUser", user);
+            }
+            return Resp.success(user);
         } catch (CUserException ue) {
             return checkException(ue);
         } catch (Exception e) {
@@ -105,7 +112,7 @@ public class UserController {
 
 
     /**
-     * 查询用户
+     * 根据条件查询用户
      *
      * @Title queryUserBy
      * @param username
@@ -125,6 +132,29 @@ public class UserController {
     }
 
 
+
+    /**
+     * 根据uid查询用户信息
+     *
+     * @Title queryUserByPrimary
+     * @param uid
+     * @return com.opsigte.chatroom.common.Resp
+     * @throws
+     */
+    @RequestMapping(value = "queryUserByPrimary.json")
+    public Resp queryUserByPrimary(@RequestParam String uid){
+        log.info("根据uid查询用户信息-入参:uid:{}",uid);
+        try {
+            return Resp.success(userService.selectByPrimary(uid));
+        } catch (CUserException ce) {
+            return checkException(ce);
+        } catch (Exception e) {
+            return Resp.fail();
+        }
+
+    }
+
+
     /**
      * 根据uid查询好友列表
      *
@@ -133,6 +163,7 @@ public class UserController {
      * @return com.opsigte.chatroom.common.Resp
      * @throws
      */
+    @Authentication
     @RequestMapping(value = "queryRelationList.json")
     public Resp queryRelationList(@RequestParam String uid) {
         log.info("查询好友列表-入参:uid:{}", uid);
