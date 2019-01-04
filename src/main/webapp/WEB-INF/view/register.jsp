@@ -1,9 +1,10 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>hello page</title>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <title>chatroom</title>
+    <link href="${pageContext.request.contextPath}/static/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="container" style="width: 350px">
@@ -23,11 +24,11 @@
 
 </div>
 
-<script th:src="@{/js/jquery-3.1.1.min.js}"></script>
-<script th:src="@{/js/bootstrap.min.js}"></script>
-<script th:src="@{/js/vue.min.js}"></script>
-<script th:src="@{/js/vue-resource.js}"></script>
-<script th:src="@{/js/md5.js}"></script>
-<script th:src="@{/js/page/register.js}"></script>
+<script src="${pageContext.request.contextPath}/static/js/jquery-3.1.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/vue.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/vue-resource.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/md5.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/page/register.js"></script>
 </body>
 </html>

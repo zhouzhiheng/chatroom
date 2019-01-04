@@ -1,5 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 </head>
 <body>
 
-    <input id="text" type="text"><br/>
+<label for="text"></label><input id="text" type="text"/><br/>
     <button type="button" onclick="sendMessage()">发送</button>
 
     <br/>
@@ -20,7 +20,7 @@
     </div>
 
 
-    <script th:src="@{/js/utils.js}"></script>
+    <script src="${pageContext.request.contextPath}/static/js/utils.js"></script>
     <script>
 	    var uid = getCookie("uid");
 

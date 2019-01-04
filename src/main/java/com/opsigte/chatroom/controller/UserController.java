@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @EnableAutoConfiguration
-@RequestMapping("chatroom")
+@RequestMapping("user")
 public class UserController {
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);

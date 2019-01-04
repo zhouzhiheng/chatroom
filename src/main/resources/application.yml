@@ -1,15 +1,12 @@
 server:
   port: 10005
 spring:
-  thymeleaf:
-    cache: false
-    mode: HTML5
-    prefix: classpath:templates/
-    suffix: .html
-    encoding: UTF-8
   profiles:
     active: dev
-
+  mvc:
+    view:
+      prefix: /WEB-INF/view/
+      suffix: .jsp
 
 # mybatis配置
 mybatis:
