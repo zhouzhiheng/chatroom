@@ -19,11 +19,15 @@ public class BaseController {
 
     @RequestMapping(value = {"", "login"})
     public String hello(Model model){
+        System.out.println("login.jsp");
+
         return "login";
     }
 
     @RequestMapping(value = "/{url}")
     public String page(@PathVariable(value = "url") String url){
+        System.out.println("url："+url);
+
         return url;
     }
 

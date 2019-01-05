@@ -13,7 +13,7 @@
 
 
 -- 导出 chatroom 的数据库结构
-DROP DATABASE IF EXISTS `chatroom`;
+DROP DATABASE IF EXISTS `chatrroom`;
 CREATE DATABASE IF NOT EXISTS `chatroom` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `chatroom`;
 

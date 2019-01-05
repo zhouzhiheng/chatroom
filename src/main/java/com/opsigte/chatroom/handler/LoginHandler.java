@@ -1,7 +1,8 @@
-package com.opsigte.chatroom.filter;
+package com.opsigte.chatroom.handler;
 
 import com.opsigte.chatroom.annotation.Authentication;
 import com.opsigte.chatroom.entity.CUser;
+import com.opsigte.chatroom.exception.CUserException;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -9,26 +10,31 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class LoginFilter extends HandlerInterceptorAdapter {
+public class LoginHandler extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        //如果是spring mvc 方法
-        if (handler.getClass().isAssignableFrom(Authentication.class)) {
-            Authentication needLogin = ((HandlerMethod) handler).getMethodAnnotation(Authentication.class);
-            if (needLogin != null) {
-                CUser user = (CUser) request.getSession().getAttribute("loginUser");
-                if (user == null) {
-                    String rt = request.getHeader("X-Requested-With");
-                    if (rt != null && "XMLHttpRequest".equals(rt)) {
-                        response.sendRedirect("/login");
-                        return false;
-                    }
-                } else {
-                    return true;
+        // 如果不是映射到方法直接通过
+        if (!(handler instanceof HandlerMethod)) {
+            return true;
+        }
+
+        HandlerMethod method = (HandlerMethod) handler;
+        // 如果方法上添加了注解
+        if (method.getMethodAnnotation(Authentication.class) != null){
+            CUser user = (CUser) request.getSession().getAttribute("loginUser");
+            if (user == null) {
+                String rt = request.getHeader("X-Requested-With");
+                if ("XMLHttpRequest".equals(rt)) {
+                    response.setStatus(405);
+                    return false;
                 }
+            } else {
+                return true;
             }
         }
+
+
         return true;
     }
 

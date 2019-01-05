@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 //自定义注解
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD,ElementType.TYPE})
 public @interface Authentication {
     String value() default "";
 }
