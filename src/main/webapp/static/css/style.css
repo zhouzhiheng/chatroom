@@ -1,0 +1,31 @@
+.big-div {
+    width: 99%;height: 100% auto;margin: 0 auto;
+}
+.left-div {
+    width: 22%;height: 700px;border: 1px solid #0f0f0f;float: left;padding: 5px;
+}
+.left-top-div {
+    height: 5%;background: #23527c;margin: 5px;
+}
+.left-bottom-div {
+    height: 90%;border: 1px solid #0f0f0f;margin: 5px;
+}
+.middle-div {
+    width: 55%;height: 700px;border: 1px solid #0f0f0f;float: left;padding: 5px;
+}
+.middle-top-div {
+    height: 60%;border: 1px solid #0f0f0f;margin: 5px;
+}
+.middle-bottom-div {
+    height: 35%;border: 1px solid #0f0f0f;margin: 5px;
+}
+
+.right-div {
+    width: 20%;height: 700px;border: 1px solid #0f0f0f;float: left;padding: 5px
+}
+.right-top-div {
+    height: 7%;border: 1px solid #0f0f0f;margin: 5px;
+}
+.right-bottom-div {
+    height: 90%;border: 1px solid #0f0f0f;margin: 5px;
+}

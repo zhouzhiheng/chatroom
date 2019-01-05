@@ -1,25 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>chatroom</title>
-</head>
-<script>
-    var userId = '${loginUser.uid}';
-</script>
-<body>
+<html>
 
-<div id="content-div">
-    <div>
-        接收的消息:
-        <ul id="message">
-        </ul>
+	<head>
+		<meta charset="utf-8" />
+		<title>chatroom</title>
+        <link href="${pageContext.request.contextPath}/static/css/style.css" rel="stylesheet">
+        <script>
+			var userId = '${loginUser.uid}';
+        </script>
+	</head>
 
-    </div>
-
-    好友列表
-    <div>
+    <%--<div>
         <ul>
             <li v-for="(val,index) in relationList" style="cursor: pointer" @click="chatFun(index,val.relationId,val.targetUid)">
                 {{val.nickName}}
@@ -29,17 +21,42 @@
                 </div>
             </li>
         </ul>
-    </div>
-</div>
+    </div>--%>
 
+	<body>
+		<div class="big-div" id="content-div">
+			<div class="left-div">
+				<div class="left-top-div">
+                    <input type="text" placeholder="搜索好友">
+				</div>
+				<div class="left-bottom-div">
+					这里是左边div的底部
+				</div>
+			</div>
+			<div class="middle-div">
+				<div class="middle-top-div">
+					这里是中边div的上边
+				</div>
+				<div class="middle-bottom-div">
+					这里是中边div的下边
+				</div>
+			</div>
+			<div class="right-div">
+				<div class="right-top-div">
+					这里是右边div的上边
+				</div>
+				<div class="right-bottom-div">
+					这里是右边div的下边
+				</div>
+			</div>
 
-    <script src="${pageContext.request.contextPath}/static/js/jquery-3.1.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/static/js/vue.min.js"></script>
-    <script src="${pageContext.request.contextPath}/static/js/vue-resource.js"></script>
-    <script src="${pageContext.request.contextPath}/static/js/utils.js"></script>
-    <script src="${pageContext.request.contextPath}/static/js/page/room.js"></script>
-    <script>
+		</div>
 
-    </script>
-</body>
+        <script src="${pageContext.request.contextPath}/static/js/jquery-3.1.1.min.js"></script>
+        <script src="${pageContext.request.contextPath}/static/js/vue.min.js"></script>
+        <script src="${pageContext.request.contextPath}/static/js/vue-resource.js"></script>
+        <script src="${pageContext.request.contextPath}/static/js/utils.js"></script>
+        <script src="${pageContext.request.contextPath}/static/js/page/room.js"></script>
+	</body>
+
 </html>
