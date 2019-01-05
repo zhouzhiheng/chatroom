@@ -1,9 +1,12 @@
 package com.opsigte.chatroom.controller;
 
+import com.opsigte.chatroom.entity.CUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Project: com.opsigte.chatroom.controller
@@ -19,15 +22,18 @@ public class BaseController {
 
     @RequestMapping(value = {"", "login"})
     public String hello(Model model){
-        System.out.println("login.jsp");
-
         return "login";
     }
 
     @RequestMapping(value = "/{url}")
-    public String page(@PathVariable(value = "url") String url){
-        System.out.println("url："+url);
-
+    public String page(HttpServletRequest request, @PathVariable(value = "url") String url){
+        String room = "room";
+        if (room.equals(url)) {
+            CUser cUser = (CUser) request.getSession().getAttribute("loginUser");
+            if (cUser == null) {
+                return "redirect:/";
+            }
+        }
         return url;
     }
 

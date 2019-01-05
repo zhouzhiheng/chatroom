@@ -92,7 +92,7 @@ public class UserBiz {
     @Transactional(rollbackFor = Exception.class)
     public String addUser(String username, String password) throws CUserException{
         CUser cUser = new CUser();
-        cUser.setNiceName(username.trim());
+        cUser.setNickName(username.trim());
         cUser.setPassword(password);
         cUser.setHeadUrl("");
         cUser.setIsMember(2);

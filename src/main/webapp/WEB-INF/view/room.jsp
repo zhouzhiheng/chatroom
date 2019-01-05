@@ -5,14 +5,12 @@
     <meta charset="UTF-8">
     <title>chatroom</title>
 </head>
+<script>
+    var userId = '${loginUser.uid}';
+</script>
 <body>
 
 <div id="content-div">
-    <label for="text"></label><input id="text" type="text"/><br/>
-    <button type="button" @click="sendMessage">发送</button>
-
-    <br/>
-
     <div>
         接收的消息:
         <ul id="message">
@@ -20,6 +18,18 @@
 
     </div>
 
+    好友列表
+    <div>
+        <ul>
+            <li v-for="(val,index) in relationList" style="cursor: pointer" @click="chatFun(index,val.relationId,val.targetUid)">
+                {{val.nickName}}
+                <div v-show="index == chat.chatIndex">
+                    <input type="text" placeholder="请输入内容" v-model="writeMessage"/>
+                    <input type="button" value="发送" @click="sendChat"/>
+                </div>
+            </li>
+        </ul>
+    </div>
 </div>
 
 

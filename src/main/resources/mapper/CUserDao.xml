@@ -3,7 +3,7 @@
 <mapper namespace="com.opsigte.chatroom.dao.CUserDao">
     <resultMap id="BaseResultMap" type="com.opsigte.chatroom.entity.CUser">
         <result column="uid" jdbcType="CHAR" property="uid" />
-        <result column="nice_name" jdbcType="VARCHAR" property="niceName" />
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
         <result column="head_url" jdbcType="VARCHAR" property="headUrl" />
         <result column="status" jdbcType="BIT" property="status" />
         <result column="password" jdbcType="VARCHAR" property="password" />
@@ -19,17 +19,17 @@
           SELECT UUID()
       </selectKey>
     insert into c_user (uid, head_url, is_member,
-      last_login_time, nice_name, password,
+      last_login_time, nick_name, password,
       status,version,create_time,update_time)
     values (#{uid,jdbcType=CHAR}, #{headUrl,jdbcType=VARCHAR}, #{isMember,jdbcType=INTEGER},
-      #{lastLoginTime,jdbcType=TIMESTAMP}, #{niceName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{lastLoginTime,jdbcType=TIMESTAMP}, #{nickName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       #{status,jdbcType=INTEGER},#{version,jdbcType=INTEGER},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP})
   </insert>
 
 
     <select id="selectBy" resultMap="BaseResultMap" parameterType="map">
       SELECT uid,
-             nice_name,
+             nick_name,
              head_url,
              is_member,
              last_login_time,
@@ -40,7 +40,7 @@
       FROM c_user
       <where>
         <if test="username != null and username != ''">
-            AND nice_name = #{username}
+            AND nick_name = #{username}
         </if>
         <if test="password != null and password != ''">
             AND password = #{password}
@@ -52,7 +52,7 @@
     </select>
     <select id="selectByPrimary" resultMap="BaseResultMap" parameterType="string">
         SELECT uid,
-               nice_name,
+               nick_name,
                head_url,
                is_member,
                last_login_time,

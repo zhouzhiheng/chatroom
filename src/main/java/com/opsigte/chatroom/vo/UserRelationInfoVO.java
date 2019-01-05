@@ -23,7 +23,7 @@ public class UserRelationInfoVO implements Serializable {
 
     private Date lastLoginTime;
 
-    private String niceName;
+    private String nickName;
 
     private String relationId;
 
@@ -77,12 +77,12 @@ public class UserRelationInfoVO implements Serializable {
         this.lastLoginTime = lastLoginTime;
     }
 
-    public String getNiceName() {
-        return niceName;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setNiceName(String niceName) {
-        this.niceName = niceName;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class UserRelationInfoVO implements Serializable {
                 ", headUrl='" + headUrl + '\'' +
                 ", isMember=" + isMember +
                 ", lastLoginTime=" + lastLoginTime +
-                ", niceName='" + niceName + '\'' +
+                ", nickName='" + nickName + '\'' +
                 ", relationId='" + relationId + '\'' +
                 ", targetUid='" + targetUid + '\'' +
                 '}';

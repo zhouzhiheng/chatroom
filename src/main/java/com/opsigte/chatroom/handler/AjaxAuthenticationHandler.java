@@ -10,7 +10,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class LoginHandler extends HandlerInterceptorAdapter {
+public class AjaxAuthenticationHandler extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -25,8 +25,10 @@ public class LoginHandler extends HandlerInterceptorAdapter {
             CUser user = (CUser) request.getSession().getAttribute("loginUser");
             if (user == null) {
                 String rt = request.getHeader("X-Requested-With");
-                if ("XMLHttpRequest".equals(rt)) {
-                    response.setStatus(405);
+                String xmlType = "XMLHttpRequest";
+                if (xmlType.equals(rt)) {
+                    response.setStatus(409);
+                    response.setHeader("No-Authentication","No-Authentication");
                     return false;
                 }
             } else {

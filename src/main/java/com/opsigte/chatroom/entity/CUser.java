@@ -22,7 +22,7 @@ public class CUser implements Serializable {
 
     private Date lastLoginTime;
 
-    private String niceName;
+    private String nickName;
 
     private String password;
 
@@ -67,12 +67,12 @@ public class CUser implements Serializable {
         this.lastLoginTime = lastLoginTime;
     }
 
-    public String getNiceName() {
-        return niceName;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setNiceName(String niceName) {
-        this.niceName = niceName == null ? null : niceName.trim();
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public String getPassword() {
@@ -122,7 +122,7 @@ public class CUser implements Serializable {
                 ", headUrl='" + headUrl + '\'' +
                 ", isMember=" + isMember +
                 ", lastLoginTime=" + lastLoginTime +
-                ", niceName='" + niceName + '\'' +
+                ", nickName='" + nickName + '\'' +
                 ", password='" + password + '\'' +
                 ", status=" + status +
                 ", version=" + version +

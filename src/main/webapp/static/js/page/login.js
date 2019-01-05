@@ -29,7 +29,6 @@ window.onload=function(){
 					dataType: "json",
 					success: function (resp) {
 						if (resp.code === "200") {
-							setCookie("uid", resp.data.uid,24 * 60 * 60 * 1000);
 							window.location.href = "/room";
 						} else {
 							alert(resp.message);

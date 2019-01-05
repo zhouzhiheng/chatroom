@@ -2,7 +2,17 @@ var vm = new Vue({
 	el:"#content-div",
 	data:{
 		socket:"",
-		uid:""
+		uid:"",
+		targetUser:{
+
+		},
+		relationList:[],
+		chat:{
+			chatIndex:-1,
+			relationId:"",
+			targetUid:""
+		},
+		writeMessage:""
 	},
 	methods:{
 		createWebSocket:function () {
@@ -33,9 +43,8 @@ var vm = new Vue({
 				}
 			}
 		},
-		sendMessage:function () {
-			var text = document.getElementById("text").value;
-			this.socket.send(text+"|"+"eec384a3-0e64-11e9-833e-309c233cd1e5");
+		sendMessage:function (msg,uid) {
+			this.socket.send(msg+"|"+uid);
 		},
 		setMessageInnerHTML:function (msg) {
 			document.getElementById('message').innerHTML += '<li>'+msg + '</li>';
@@ -49,13 +58,34 @@ var vm = new Vue({
 				},
 				dataType: "json",
 				success: function (resp) {
-					console.log(resp);
+					if (resp.code === "200") {
+						vm.relationList = resp.data;
+					}
+				},
+				error:function (resp) {
+					if (resp.status === 409) {
+						window.location.href = "/login";
+					}
 				}
 			})
+		},
+		chatFun:function (chatIndex,relationId,targetUid) {
+			if (vm.chat.chatIndex !== chatIndex) {
+				vm.writeMessage = "";
+			}
+
+			vm.chat = {
+				chatIndex:chatIndex,
+				relationId:relationId,
+				targetUid:targetUid
+			};
+		},
+		sendChat:function () {
+			vm.sendMessage(vm.writeMessage,vm.chat.targetUid);
 		}
 	},
 	created:function () {
-		this.uid = getCookie("uid");
+		this.uid = userId;
 		this.createWebSocket();
 		this.queryRelationList();
 	}
