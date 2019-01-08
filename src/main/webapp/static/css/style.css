@@ -17,7 +17,7 @@
     height: 60%;border: 1px solid #0f0f0f;margin: 5px;
 }
 .middle-bottom-div {
-    height: 35%;border: 1px solid #0f0f0f;margin: 5px;
+    height: 25%;border: 1px solid #0f0f0f;margin: 75px 3px 5px;
 }
 
 .right-div {
@@ -28,4 +28,47 @@
 }
 .right-bottom-div {
     height: 90%;border: 1px solid #0f0f0f;margin: 5px;
+}
+
+.room-relation-head{
+    background-color: blue;
+    height: 60px;
+    margin-top: 10px;
+    margin-left: 3px;
+    margin-right: 3px;
+    line-height: 60px;
+    float: left;
+    width: 66px;
+}
+.room-relation-nick{
+    margin-top: 10px;
+    float: right;
+}
+.room-relation-msg{
+    margin-top: 50px;
+    float: right;
+}
+.room-relation-list img{
+    width: 66px;
+    height: 66px;
+}
+.room-relation-list{
+    cursor: pointer;
+}
+.room-relation-list:hover{
+    background-color: #8c8c8c;
+}
+.room-relation-nick{
+    margin-right: 65px;
+    float: right;
+    margin-top: 10px;
+}
+.room-relation-msg{
+    float: right;
+    margin-top: 34px;
+}
+.room-send-button{
+    margin-top: 37px;
+    float: right;
+    margin-right: 6px;
 }

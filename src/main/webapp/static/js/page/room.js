@@ -60,6 +60,7 @@ var vm = new Vue({
 				success: function (resp) {
 					if (resp.code === "200") {
 						vm.relationList = resp.data;
+						console.log(vm.relationList);
 					}
 				},
 				error:function (resp) {
@@ -81,6 +82,14 @@ var vm = new Vue({
 			};
 		},
 		sendChat:function () {
+			if (vm.chat.relationId === "") {
+				alert("请选择联系人");
+				return false;
+			}
+			if (vm.writeMessage === "") {
+				alert("请输入内容");
+				return false;
+			}
 			vm.sendMessage(vm.writeMessage,vm.chat.targetUid);
 		}
 	},

@@ -6,47 +6,43 @@
 		<meta charset="utf-8" />
 		<title>chatroom</title>
         <link href="${pageContext.request.contextPath}/static/css/style.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/static/css/bootstrap.min.css" rel="stylesheet">
         <script>
 			var userId = '${loginUser.uid}';
         </script>
 	</head>
 
-    <%--<div>
-        <ul>
-            <li v-for="(val,index) in relationList" style="cursor: pointer" @click="chatFun(index,val.relationId,val.targetUid)">
-                {{val.nickName}}
-                <div v-show="index == chat.chatIndex">
-                    <input type="text" placeholder="请输入内容" v-model="writeMessage"/>
-                    <input type="button" value="发送" @click="sendChat"/>
-                </div>
-            </li>
-        </ul>
-    </div>--%>
 
 	<body>
 		<div class="big-div" id="content-div">
 			<div class="left-div">
 				<div class="left-top-div">
-                    <input type="text" placeholder="搜索好友">
+                    <input type="text"  class="form-control" placeholder="搜索好友">
 				</div>
 				<div class="left-bottom-div">
-					这里是左边div的底部
+					<div :style="chat.chatIndex == index ? 'background-color: #5e5e5e;':''" class="room-relation-list" v-for="(val,index) in relationList" @click="chatFun(index,val.relationId,val.targetUid)">
+                        <img :src="val.headUrl"/>
+                        <div class="room-relation-nick">
+                            <span>{{val.nickName}}</span>
+                        </div>
+                        <div class="room-relation-msg">
+                            <span></span>
+                        </div>
+                    </div>
 				</div>
 			</div>
 			<div class="middle-div">
 				<div class="middle-top-div">
-					这里是中边div的上边
 				</div>
 				<div class="middle-bottom-div">
-					这里是中边div的下边
+                    <textarea v-model="writeMessage" rows="10" placeholder="请输入聊天内容" style="height: 100px;" class="form-control"></textarea>
+                    <button class="room-send-button" @click="sendChat">确定</button>
 				</div>
 			</div>
 			<div class="right-div">
 				<div class="right-top-div">
-					这里是右边div的上边
 				</div>
 				<div class="right-bottom-div">
-					这里是右边div的下边
 				</div>
 			</div>
 
