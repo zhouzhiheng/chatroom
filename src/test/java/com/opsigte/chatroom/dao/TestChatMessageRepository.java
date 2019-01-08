@@ -21,13 +21,18 @@ public class TestChatMessageRepository {
 
     @Test
     public void testSave(){
-        ChatMessageVO chatMessageVO = new ChatMessageVO("222","222向111发送消息","2018-01-08 19:02:30");
+        ChatMessageVO chatMessageVO = new ChatMessageVO("111","222向111发送消息","2018-01-08 19:02:30");
         chatMessageRepository.save(chatMessageVO);
 
-        List<ChatMessageVO> all = chatMessageRepository.findAll();
-        for (ChatMessageVO chatMessageVO1 : all) {
+        List<ChatMessageVO> byUid = chatMessageRepository.findByUid("111");
+        for (ChatMessageVO chatMessageVO1 : byUid) {
             System.out.println(chatMessageVO1);
         }
+
+        /*List<ChatMessageVO> all = chatMessageRepository.findAll();
+        for (ChatMessageVO chatMessageVO1 : all) {
+            System.out.println(chatMessageVO1);
+        }*/
 
     }
 }
