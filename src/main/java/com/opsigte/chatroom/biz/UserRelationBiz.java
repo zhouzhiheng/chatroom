@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Project: com.opsigte.chatroom.biz
@@ -71,6 +73,27 @@ public class UserRelationBiz {
         } catch (Exception e) {
             log.error("添加好友数据库失败,sourceUid:{},targetUid:{}",sourceUid,targetUid,e);
             throw new CUserException(CUserException.DB_INSERT_RESULT_0.getCode(), "添加好友数据库异常");
+        }
+    }
+
+
+    /**
+     * 根据源uid和目标uid查询relationId
+     *
+     * @Title selectRelationIdByUid
+     * @param sourceUid, targetUid
+     * @return java.lang.String
+     * @throws CUserException
+     */
+    public String selectRelationIdByUid(String sourceUid, String targetUid) throws CUserException{
+        try {
+            Map<String, Object> map = new HashMap<String, Object>(16);
+            map.put("sourceUid", sourceUid);
+            map.put("targetUid", targetUid);
+            return cUserRelationDao.selectRelationIdByUid(map);
+        } catch (Exception e) {
+            log.error("查询relationId数据库失败,sourceUid:{},targetUid:{}",sourceUid,targetUid,e);
+            throw new CUserException(BizException.DB_SELECT_ERROR.getCode(), "查询relationId数据库异常");
         }
     }
 }

@@ -29,4 +29,10 @@
         WHERE source_uid = #{uid}
            or target_uid = #{uid}
     </select>
+    <select id="selectRelationIdByUid" resultType="java.lang.String" parameterType="map">
+        SELECT relation_id
+        FROM c_user_relation
+        WHERE (source_uid = #{sourceUid} AND target_uid = #{targetUid})
+        OR (source_uid = #{targetUid} AND target_uid = #{sourceUid})
+    </select>
 </mapper>

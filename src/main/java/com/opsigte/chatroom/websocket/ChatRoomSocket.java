@@ -1,5 +1,7 @@
 package com.opsigte.chatroom.websocket;
 
+import com.opsigte.chatroom.service.UserRelationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.OnClose;
@@ -25,6 +27,9 @@ public class ChatRoomSocket {
     private Session session;
 
     private String userId = "";
+
+    @Autowired
+    private UserRelationService userRelationService;
 
     @OnOpen
     public void onOpen(@PathParam(value = "uid") String uid, Session session){
@@ -60,10 +65,17 @@ public class ChatRoomSocket {
         if (message != null) {
             int index = message.lastIndexOf("|");
             String msg = message.substring(0, index);
-            String uid = message.substring(index+1);
-            if (!"".equals(uid)) {
+            String uids = message.substring(index+1);
+            String[] split = uids.split(",");
+            String targetUid = split[0];
+            String uid = split[1];
+
+            // 根据sourceUid和targetUid查询关系id
+            String relationId = userRelationService.selectRelationIdByUid(uid, targetUid);
+
+            if (!"".equals(targetUid)) {
                 // 个人消息
-                sendToUserRelation(msg,uid);
+                sendToUserRelation(msg,targetUid,relationId);
             } else {
                 // 群发消息
                 sendToAll(msg);
@@ -79,14 +91,14 @@ public class ChatRoomSocket {
      * 发送给指定用户
      *
      * @Title sendToUserRelation
-     * @param msg, uid
+     * @param msg, targetUid:接收人uid，uid:发送人uid
      * @return void
      * @throws
      */
-    private void sendToUserRelation(String msg,String uid){
-        if (webSocketSet.get(uid) != null) {
+    private void sendToUserRelation(String msg,String targetUid,String uid){
+        if (webSocketSet.get(targetUid) != null) {
             try {
-                webSocketSet.get(uid).sendMessage(msg);
+                webSocketSet.get(targetUid).sendMessage(msg+"|"+uid);
             } catch (IOException e) {
                 e.printStackTrace();
             }

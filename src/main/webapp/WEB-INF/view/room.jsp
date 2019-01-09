@@ -33,14 +33,19 @@
 			</div>
 			<div class="middle-div">
 				<div class="middle-top-div">
-                    <ul>
-                        <li v-for="(val,index) in messageList">
-                            {{val.msg}}
-                        </li>
-                    </ul>
+                    <%--<div>
+                        <ul>
+                            <li v-for="(val,index) in messageList">
+                                {{val.msg}}
+                            </li>
+                        </ul>
+                    </div>--%>
+                    <div :class="val.uid == uid ? 'room-msg-right':'room-msg-left'" v-for="(val,index) in messageList">
+                        {{val.msg}}
+                    </div>
 				</div>
 				<div class="middle-bottom-div">
-                    <textarea v-model="writeMessage" rows="10" placeholder="请输入聊天内容" style="height: 100px;" class="form-control"></textarea>
+                    <textarea v-model="writeMessage" @keyup.enter="sendChat" rows="10" placeholder="请输入聊天内容" style="height: 100px;" class="form-control"></textarea>
                     <button class="room-send-button" @click="sendChat">确定</button>
 				</div>
 			</div>

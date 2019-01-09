@@ -72,3 +72,13 @@
     float: right;
     margin-right: 6px;
 }
+.room-msg-left{
+    background-color: #66afe9;
+    width: 200px;
+}
+.room-msg-right{
+    background-color: #2e6da4;
+    width: 200px;
+    float: right;
+    margin-top: 20px;
+}

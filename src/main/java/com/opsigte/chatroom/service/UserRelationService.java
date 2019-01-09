@@ -1,7 +1,6 @@
 package com.opsigte.chatroom.service;
 
 
-import com.opsigte.chatroom.entity.CUserRelation;
 import com.opsigte.chatroom.exception.CUserException;
 import com.opsigte.chatroom.vo.UserRelationInfoVO;
 
@@ -39,4 +38,13 @@ public interface UserRelationService {
      */
     String addRelation(String sourceUid, String targetUid) throws CUserException;
 
+    /**
+     * 根据源uid和目标uid查询relationId
+     *
+     * @Title selectRelationIdByUid
+     * @param sourceUid, targetUid
+     * @return java.lang.String
+     * @throws CUserException
+     */
+    String selectRelationIdByUid(String sourceUid, String targetUid) throws CUserException;
 }

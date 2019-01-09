@@ -3,6 +3,7 @@ package com.opsigte.chatroom.service.impl;
 import com.opsigte.chatroom.biz.UserRelationBiz;
 import com.opsigte.chatroom.entity.CUser;
 import com.opsigte.chatroom.entity.CUserRelation;
+import com.opsigte.chatroom.exception.BizException;
 import com.opsigte.chatroom.exception.CUserException;
 import com.opsigte.chatroom.service.UserRelationService;
 import com.opsigte.chatroom.service.UserService;
@@ -165,6 +166,33 @@ public class UserRelationServiceImpl implements UserRelationService {
             return relationId;
         } catch (CUserException e) {
             throw new CUserException(CUserException.DB_INSERT_RESULT_0.getCode(), e.getMsg());
+        }
+    }
+
+
+    /**
+     * 根据源uid和目标uid查询relationId
+     *
+     * @Title selectRelationIdByUid
+     * @param sourceUid, targetUid
+     * @return java.lang.String
+     * @throws CUserException
+     */
+    @Override
+    public String selectRelationIdByUid(String sourceUid, String targetUid) throws CUserException {
+        if (StringUtils.isEmpty(sourceUid) || StringUtils.isEmpty(targetUid)) {
+            throw new CUserException(CUserException.INPUT_PARAM_IS_NULL, "参数错误");
+        }
+
+        try {
+            String result = userRelationBiz.selectRelationIdByUid(sourceUid, targetUid);
+            if (result == null) {
+                log.info("没有根据源uid:{}和目标uid:{}查询到关系id", sourceUid, targetUid);
+                return "";
+            }
+            return result;
+        } catch (CUserException e) {
+            throw new CUserException(BizException.DB_SELECT_ERROR.getCode(), e.getMsg());
         }
     }
 }

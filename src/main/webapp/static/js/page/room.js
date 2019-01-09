@@ -21,13 +21,18 @@ var vm = new Vue({
 			if (!typeof (WebSocket) === undefined) {
 				alert("你的浏览器不支持WebSocket!");
 			} else {
-				this.socket = new WebSocket("ws://47.89.188.196:8080/socket/"+this.uid);
+				this.socket = new WebSocket("ws://localhost:10005/socket/"+this.uid);
 				if (this.socket !== undefined && this.socket != null) {
 					this.socket.onopen = function (ev) {
 						console.log("连接成功,uid:" + vm.uid);
 					};
 					this.socket.onmessage = function (ev) {
-						vm.setMessageInnerHTML(ev.data);
+						var msg = ev.data;
+						var index = msg.lastIndexOf("|");
+						var relationId = msg.substring(index+1);
+
+						// 接收消息
+						vm.queryMessageList(relationId);
 					};
 					this.socket.onclose = function (ev) {
 						setCookie("uid", null);
@@ -45,7 +50,9 @@ var vm = new Vue({
 			}
 		},
 		sendMessage:function (msg,uid) {
-			this.socket.send(msg+"|"+uid);
+			// "消息" + "|" + "接收人uid" + "," + "发送人uid"
+			// 后来加了一个发送人uid是为了，让接收人在onmessage的时候知道是谁给他发的消息，从而去查询relationId
+			this.socket.send(msg+"|"+uid + "," + vm.uid);
 		},
 		setMessageInnerHTML:function (msg) {
 			document.getElementById('message').innerHTML += '<li>'+msg + '</li>';
@@ -94,13 +101,14 @@ var vm = new Vue({
 
 			vm.sendMessage(vm.writeMessage,vm.chat.targetUid);
 			this.addMessage();
+			vm.writeMessage = "";
 		},
-		queryMessageList:function () {
+		queryMessageList:function (relationId) {
 			$.ajax({
 				type: "post",
 				url: "/user/findMessage.json",
 				data: {
-					relationId:this.chat.relationId
+					relationId:relationId
 				},
 				dataType: "json",
 				success: function (resp) {
@@ -129,7 +137,7 @@ var vm = new Vue({
 				success: function (resp) {
 					if (resp.code === "200") {
 						// 如果消息发送成功，请求聊天记录
-						vm.queryMessageList();
+						vm.queryMessageList(vm.chat.relationId);
 					}
 				},
 				error:function (resp) {

@@ -3,6 +3,7 @@ package com.opsigte.chatroom.dao;
 import com.opsigte.chatroom.entity.CUserRelation;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Project: com.opsigte.chatroom.dao
@@ -34,5 +35,13 @@ public interface CUserRelationDao {
     List<CUserRelation> selectByUid(String uid) throws Exception;
 
 
-
+    /**
+     * 根据源uid和目标uid查询关系id
+     *
+     * @Title selectRelationIdByUid
+     * @param map
+     * @return java.lang.String
+     * @throws Exception
+     */
+    String selectRelationIdByUid(Map<String,Object> map) throws Exception;
 }
