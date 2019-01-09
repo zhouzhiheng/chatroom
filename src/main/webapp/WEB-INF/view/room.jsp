@@ -33,6 +33,11 @@
 			</div>
 			<div class="middle-div">
 				<div class="middle-top-div">
+                    <ul>
+                        <li v-for="(val,index) in messageList">
+                            {{val.msg}}
+                        </li>
+                    </ul>
 				</div>
 				<div class="middle-bottom-div">
                     <textarea v-model="writeMessage" rows="10" placeholder="请输入聊天内容" style="height: 100px;" class="form-control"></textarea>

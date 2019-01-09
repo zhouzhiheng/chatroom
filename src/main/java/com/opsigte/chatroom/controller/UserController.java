@@ -5,8 +5,10 @@ import com.opsigte.chatroom.common.Resp;
 import com.opsigte.chatroom.entity.CUser;
 import com.opsigte.chatroom.enums.ErrorCode;
 import com.opsigte.chatroom.exception.CUserException;
+import com.opsigte.chatroom.service.ChatMessageService;
 import com.opsigte.chatroom.service.UserRelationService;
 import com.opsigte.chatroom.service.UserService;
+import com.opsigte.chatroom.vo.ChatMessageParam;
 import com.opsigte.chatroom.vo.UserRelationInfoVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +41,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private UserRelationService userRelationService;
+    @Autowired
+    private ChatMessageService chatMessageService;
 
     /**
      * 用户登录
@@ -176,6 +180,55 @@ public class UserController {
             return Resp.fail();
         }
     }
+
+
+    /**
+     * 添加消息
+     *
+     * @Title addMessage
+     * @param chatMessageParam
+     * @return com.opsigte.chatroom.common.Resp
+     * @throws
+     */
+    @Authentication
+    @RequestMapping(value = "addMessage.json")
+    public Resp addMessage(ChatMessageParam chatMessageParam) {
+        log.info("添加消息入参:chatMessageParam:{}", chatMessageParam);
+
+        try {
+            return Resp.success(chatMessageService.addMessage(chatMessageParam));
+        } catch (CUserException ce) {
+            return checkException(ce);
+        } catch (Exception e) {
+            return Resp.fail();
+        }
+    }
+
+
+
+    /**
+     * 查询消息
+     *
+     * @Title addMessage
+     * @param relationId
+     * @return com.opsigte.chatroom.common.Resp
+     * @throws
+     */
+    @Authentication
+    @RequestMapping(value = "findMessage.json")
+    public Resp findMessage(String relationId) {
+        log.info("查询消息入参:relationId:{}", relationId);
+
+        try {
+            return Resp.success(chatMessageService.findByRelationId(relationId));
+        } catch (CUserException ce) {
+            return checkException(ce);
+        } catch (Exception e) {
+            return Resp.fail();
+        }
+    }
+
+
 
 
     private Resp checkException(CUserException ce){

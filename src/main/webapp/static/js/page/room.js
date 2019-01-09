@@ -12,7 +12,8 @@ var vm = new Vue({
 			relationId:"",
 			targetUid:""
 		},
-		writeMessage:""
+		writeMessage:"",
+		messageList:[]
 	},
 	methods:{
 		createWebSocket:function () {
@@ -68,7 +69,7 @@ var vm = new Vue({
 						window.location.href = "/login";
 					}
 				}
-			})
+			});
 		},
 		chatFun:function (chatIndex,relationId,targetUid) {
 			if (vm.chat.chatIndex !== chatIndex) {
@@ -90,7 +91,53 @@ var vm = new Vue({
 				alert("请输入内容");
 				return false;
 			}
+
 			vm.sendMessage(vm.writeMessage,vm.chat.targetUid);
+			this.addMessage();
+		},
+		queryMessageList:function () {
+			$.ajax({
+				type: "post",
+				url: "/user/findMessage.json",
+				data: {
+					relationId:this.chat.relationId
+				},
+				dataType: "json",
+				success: function (resp) {
+					console.log(resp);
+					if (resp.code === "200") {
+						vm.messageList = resp.data[0].list;
+					}
+				},
+				error:function (resp) {
+					if (resp.status === 409) {
+						window.location.href = "/login";
+					}
+				}
+			});
+		},
+		addMessage:function () {
+			$.ajax({
+				type: "post",
+				url: "/user/addMessage.json",
+				data: {
+					relationId:this.chat.relationId,
+					uid:this.uid,
+					msg:vm.writeMessage
+				},
+				dataType: "json",
+				success: function (resp) {
+					if (resp.code === "200") {
+						// 如果消息发送成功，请求聊天记录
+						vm.queryMessageList();
+					}
+				},
+				error:function (resp) {
+					if (resp.status === 409) {
+						window.location.href = "/login";
+					}
+				}
+			});
 		}
 	},
 	created:function () {

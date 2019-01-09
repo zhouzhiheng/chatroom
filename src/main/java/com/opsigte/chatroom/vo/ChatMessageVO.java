@@ -1,6 +1,10 @@
 package com.opsigte.chatroom.vo;
 
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @Project: com.opsigte.chatroom.vo
@@ -10,57 +14,58 @@ import java.io.Serializable;
  * @Date: 2019/1/8 18:41
  * @version
  */
+@Document(collection = "messageList")
 public class ChatMessageVO implements Serializable {
     private static final long serialVersionUID = 8902392109951138821L;
 
     /**
-     * 发送人uid
+     * 关系id
      */
-    private String uid;
+    @Indexed(unique = true)
+    private String relationId;
 
-    private String msg;
 
-    private String time;
+    /**
+     * 存的时候存一个对象，update.push()成了一个数组，所以要定义一个数组去接收
+     */
+    private ChatMessageInfoVO chatMessageInfoVO;
 
-    public ChatMessageVO() {
+    /**
+     * 定义数组去接收返回值
+     */
+    private List<ChatMessageInfoVO> list;
+
+    public String getRelationId() {
+        return relationId;
     }
 
-    public ChatMessageVO(String uid, String msg, String time) {
-        this.uid = uid;
-        this.msg = msg;
-        this.time = time;
+    public void setRelationId(String relationId) {
+        this.relationId = relationId;
     }
 
-    public String getUid() {
-        return uid;
+
+    public ChatMessageInfoVO getChatMessageInfoVO() {
+        return chatMessageInfoVO;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setChatMessageInfoVO(ChatMessageInfoVO chatMessageInfoVO) {
+        this.chatMessageInfoVO = chatMessageInfoVO;
     }
 
-    public String getMsg() {
-        return msg;
+    public List<ChatMessageInfoVO> getList() {
+        return list;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
+    public void setList(List<ChatMessageInfoVO> list) {
+        this.list = list;
     }
 
     @Override
     public String toString() {
         return "ChatMessageVO{" +
-                "uid='" + uid + '\'' +
-                ", msg='" + msg + '\'' +
-                ", time='" + time + '\'' +
+                "relationId='" + relationId + '\'' +
+                ", chatMessageInfoVO=" + chatMessageInfoVO +
+                ", list=" + list +
                 '}';
     }
 }
