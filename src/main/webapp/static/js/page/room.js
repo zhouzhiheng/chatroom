@@ -21,7 +21,7 @@ var vm = new Vue({
 			if (!typeof (WebSocket) === undefined) {
 				alert("你的浏览器不支持WebSocket!");
 			} else {
-				this.socket = new WebSocket("ws://localhost:10005/socket/"+this.uid);
+				this.socket = new WebSocket("ws://47.89.188.196:8080/socket/"+this.uid);
 				if (this.socket !== undefined && this.socket != null) {
 					this.socket.onopen = function (ev) {
 						console.log("连接成功,uid:" + vm.uid);
