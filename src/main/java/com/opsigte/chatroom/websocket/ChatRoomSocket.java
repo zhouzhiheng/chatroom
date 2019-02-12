@@ -4,6 +4,7 @@ import com.opsigte.chatroom.service.UserRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -30,6 +31,13 @@ public class ChatRoomSocket {
 
     @Autowired
     private UserRelationService userRelationService;
+
+
+    @PostConstruct
+    public void init(){
+        ChatRoomSocket chatRoomSocket = this;
+        chatRoomSocket.userRelationService = this.userRelationService;
+    }
 
     @OnOpen
     public void onOpen(@PathParam(value = "uid") String uid, Session session){

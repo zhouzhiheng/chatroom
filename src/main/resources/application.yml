@@ -10,8 +10,8 @@ spring:
   data:
     # mongodb配置
     mongodb:
-      #uri: mongodb://192.168.0.110:27017/chatroom
-      uri: mongodb://192.168.1.110:27017/chatroom
+      uri: mongodb://192.168.0.110:27017/chatroom
+      #uri: mongodb://192.168.1.110:27017/chatroom
       #uri: mongodb://47.89.188.196:27017/chatroom
 
 # mybatis配置
